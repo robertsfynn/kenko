@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Button from './components/Button';
 
 export default function App() {
   return (
@@ -9,34 +10,14 @@ export default function App() {
         source={require('./assets/img.png')}
         style={{ width: 225, height: 175 }}
       />
-      <View>
+      <View style={styles.text}>
         <Text style={styles.title}>Want our advice?</Text>
-        <Text>
+        <Text style={styles.description}>
           To give you best experience we would like to ask a few quick questions
           to set everything up for you.
         </Text>
       </View>
-      <TouchableOpacity onPress={() => console.log('click')}>
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 30,
-          }}
-        >
-          <LinearGradient
-            colors={['#23253A', '#5063EE']}
-            style={{ paddingHorizontal: 50, paddingVertical: 25 }}
-            start={{ x: 1, y: 1 }}
-            end={{ x: 0, y: 0 }}
-            locations={[0.0, 0.99]}
-          >
-            <Text style={{ color: 'white', textTransform: 'uppercase' }}>
-              Let's do it
-            </Text>
-          </LinearGradient>
-        </View>
-      </TouchableOpacity>
+      <Button text="Let's do it" onPress={() => console.log('CLICK')} />
     </View>
   );
 }
@@ -49,6 +30,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
+  text: {
+    marginBottom: 150,
+  },
   title: {
     fontSize: 24,
     lineHeight: 28,
@@ -60,5 +44,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 20,
     textAlign: 'center',
+    paddingHorizontal: 40,
   },
 });
