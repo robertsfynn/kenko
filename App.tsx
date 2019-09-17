@@ -1,25 +1,53 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import * as Font from 'expo-font';
 import Button from './components/Button';
+import { AppLoading } from 'expo';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Image
-        source={require('./assets/img.png')}
-        style={{ width: 225, height: 175 }}
-      />
-      <View style={styles.text}>
-        <Text style={styles.title}>Want our advice?</Text>
-        <Text style={styles.description}>
-          To give you best experience we would like to ask a few quick questions
-          to set everything up for you.
-        </Text>
+export default class App extends Component {
+  state = {
+    isReady: false,
+  };
+
+  async cacheResourcesAsync() {
+    await Font.loadAsync({
+      Rubik: require('./assets/fonts/Rubik/Rubik-Regular.ttf'),
+      'Rubik-Bold': require('./assets/fonts/Rubik/Rubik-Bold.ttf'),
+      'Rubik-Medium': require('./assets/fonts/Rubik/Rubik-Medium.ttf'),
+    });
+  }
+
+  render() {
+    if (!this.state.isReady) {
+      return (
+        <AppLoading
+          startAsync={this.cacheResourcesAsync}
+          onFinish={() => {
+            this.setState({ isReady: true });
+            console.log('done');
+          }}
+          onError={console.warn}
+        />
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        <Image
+          source={require('./assets/img.png')}
+          style={{ width: 225, height: 175 }}
+        />
+        <View style={styles.text}>
+          <Text style={styles.title}>Want our advice?</Text>
+          <Text style={styles.description}>
+            To give you best experience we would like to ask a few quick
+            questions to set everything up for you.
+          </Text>
+        </View>
+        <Button text="Let's do it" onPress={() => console.log('CLICK')} />
       </View>
-      <Button text="Let's do it" onPress={() => console.log('CLICK')} />
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
