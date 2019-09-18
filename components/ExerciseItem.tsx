@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import benchPress from 'assets/bodyparts/bench-press.png';
 import Tag from './Tag';
 
 const ItemContainer = styled.View`
-  flex: 1;
   align-items: center;
   flex-direction: row;
-  padding: 0 20px;
+  margin: 0 20px;
+  padding-bottom: 15px;
+  padding-top: 10px;
+  border-bottom-color: #dfdfe6;
+  border-bottom-width: 1px;
 `;
 
 const ItemImage = styled.Image`
@@ -42,19 +44,16 @@ const TagContainer = styled.View`
   align-self: flex-start;
 `;
 
-const ExerciseItem = () => {
+const ExerciseItem = ({ title, image, tags }) => {
   return (
     <ItemContainer>
-      <ItemImage source={benchPress} />
+      <ItemImage source={image} />
       <ExerciseContainer>
-        <ExerciseTitle>Bench Press</ExerciseTitle>
+        <ExerciseTitle>{title}</ExerciseTitle>
         <TagContainer>
-          <Tag tag="Chest"></Tag>
-          <Tag tag="Triceps"></Tag>
-          <Tag tag="Deltoid"></Tag>
-          <Tag tag="Chest"></Tag>
-          <Tag tag="Chest"></Tag>
-          <Tag tag="Chest"></Tag>
+          {tags.map((tag) => (
+            <Tag key={tag} tag={tag} />
+          ))}
         </TagContainer>
       </ExerciseContainer>
       <TouchableOpacity>
