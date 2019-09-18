@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import ExerciseList from './components/containers/ExerciseList';
+import ExerciseList from './containers/ExerciseList';
 
 interface State {
   isReady: boolean;
