@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import Greeting from 'views/signup/Greeting';
+import ExerciseItem from './components/ExerciseItem';
 
 interface State {
   isReady: boolean;
@@ -17,6 +17,7 @@ export default class App extends Component<{}, State> {
       Rubik: require('assets/fonts/Rubik/Rubik-Regular.ttf'),
       'Rubik-Bold': require('assets/fonts/Rubik/Rubik-Bold.ttf'),
       'Rubik-Medium': require('assets/fonts/Rubik/Rubik-Medium.ttf'),
+      Questrial: require('assets/fonts/Questrial/Questrial-Regular.ttf'),
     });
   }
 
@@ -33,6 +34,6 @@ export default class App extends Component<{}, State> {
       );
     }
 
-    return <Greeting />;
+    return <ExerciseItem />;
   }
 }
