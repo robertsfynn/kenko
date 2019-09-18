@@ -4,7 +4,11 @@ import * as Font from 'expo-font';
 import Button from './components/Button';
 import { AppLoading } from 'expo';
 
-export default class App extends Component {
+interface State {
+  isReady: boolean;
+}
+
+export default class App extends Component<{}, State> {
   state = {
     isReady: false,
   };
