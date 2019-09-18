@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import Greeting from './views/signup/greeting';
+import Greeting from 'views/signup/Greeting';
 
 interface State {
   isReady: boolean;
@@ -14,9 +14,9 @@ export default class App extends Component<{}, State> {
 
   async cacheResourcesAsync() {
     await Font.loadAsync({
-      Rubik: require('./assets/fonts/Rubik/Rubik-Regular.ttf'),
-      'Rubik-Bold': require('./assets/fonts/Rubik/Rubik-Bold.ttf'),
-      'Rubik-Medium': require('./assets/fonts/Rubik/Rubik-Medium.ttf'),
+      Rubik: require('assets/fonts/Rubik/Rubik-Regular.ttf'),
+      'Rubik-Bold': require('assets/fonts/Rubik/Rubik-Bold.ttf'),
+      'Rubik-Medium': require('assets/fonts/Rubik/Rubik-Medium.ttf'),
     });
   }
 

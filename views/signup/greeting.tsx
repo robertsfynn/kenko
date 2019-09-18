@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image } from 'react-native';
-import Button from '../../components/Button';
+import Button from 'components/Button';
 import styled from 'styled-components/native';
+import placeholder from 'assets/img.png';
 
 const StyledContainer = styled.View`
   flex: 1;
@@ -33,10 +34,7 @@ const StyledTextContainer = styled.View`
 const Greeting = () => {
   return (
     <StyledContainer>
-      <Image
-        source={require('./assets/img.png')}
-        style={{ width: 225, height: 175 }}
-      />
+      <Image source={placeholder} style={{ width: 225, height: 175 }} />
       <StyledTextContainer>
         <StyledHeader>Want our advice?</StyledHeader>
         <StyledDescription>
