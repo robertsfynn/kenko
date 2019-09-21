@@ -21,7 +21,7 @@ class WorkoutCreator extends Component {
 
 function mapStateToProps(state) {
   const { workout } = state;
-  return { chosenExercises: workout };
+  return { chosenExercises: workout.chosenExercises };
 }
 
 export default connect(mapStateToProps)(WorkoutCreator);

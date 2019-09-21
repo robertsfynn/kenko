@@ -1,9 +1,23 @@
-const workout = (state = [], action) => {
+const initalState = {
+  chosenExercises: [],
+};
+
+const workout = (state = initalState, action) => {
   switch (action.type) {
     case 'ADD_EXERCISE':
-      return [...state, action.exercise];
+      console.log(state);
+      return {
+        ...state,
+        chosenExercises: [...state.chosenExercises, action.exercise],
+      };
     case 'REMOVE_EXERCISE':
-      return state.filter((el) => el.id != action.exercise.id);
+      console.log(state);
+      return {
+        ...state,
+        chosenExercises: state.chosenExercises.filter(
+          (el) => el.id != action.exercise.id,
+        ),
+      };
     default:
       return state;
   }
