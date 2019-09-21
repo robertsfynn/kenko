@@ -6,7 +6,6 @@ import styled from 'styled-components/native';
 const Container = styled.View`
   justify-content: center;
   padding: 0 20px;
-  padding-top: 20px;
 `;
 
 const Title = styled.Text`
@@ -30,6 +29,7 @@ const NextButton = styled.Text`
   line-height: 18px;
   text-align: right;
   color: #5063ee;
+  margin-bottom: 15px;
 `;
 
 interface Props {
@@ -44,7 +44,7 @@ const Header = ({ title, subtitle, handlePress }: Props) => {
       colors={['#23253A', '#5063EE']}
       start={[0, 0]}
       end={[0, 2.5]}
-      style={{ height: 160 }}
+      style={{ height: 180 }}
     >
       <SafeAreaView>
         <Container>
