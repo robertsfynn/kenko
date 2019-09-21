@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import ExerciseList from './containers/ExerciseList';
+import WorkoutCreator from './views/workout/WorkoutCreator';
 
 interface State {
   isReady: boolean;
@@ -34,6 +34,6 @@ export default class App extends Component<{}, State> {
       );
     }
 
-    return <ExerciseList />;
+    return <WorkoutCreator />;
   }
 }

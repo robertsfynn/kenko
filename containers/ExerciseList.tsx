@@ -60,6 +60,8 @@ export default class ExerciseList extends Component<{}, State> {
   };
 
   render() {
+    console.log(this.state.chosenExercises);
+
     return (
       <SafeAreaView>
         {this.state.exercises.map((exercise) => (
