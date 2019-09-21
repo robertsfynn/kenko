@@ -7,7 +7,11 @@ export default class WorkoutCreator extends Component {
   render() {
     return (
       <View>
-        <Header title="Add Exercises" subtitle="Workout creation" />
+        <Header
+          title="Add Exercises"
+          subtitle="Workout creation"
+          handlePress={() => console.log('NEXT')}
+        />
         <ExerciseList />
       </View>
     );
