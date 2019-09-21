@@ -4,7 +4,6 @@ import ExerciseItem from './ExerciseItem';
 
 interface State {
   exercises: Exercise[];
-  chosenExercises: Exercise[];
 }
 
 interface Exercise {
@@ -42,35 +41,13 @@ export default class ExerciseList extends Component<{}, State> {
         tags: ['Hamstrings', 'Lower Back', 'Glutes', 'Other'],
       },
     ],
-    chosenExercises: [],
-  };
-
-  addExercise = (exercise) => {
-    this.setState((prevState) => ({
-      chosenExercises: [...prevState.chosenExercises, exercise],
-    }));
-  };
-
-  removeExercise = (exercise) => {
-    this.setState((prevState) => ({
-      chosenExercises: prevState.chosenExercises.filter(
-        (el: Exercise) => el.id != exercise.id,
-      ),
-    }));
   };
 
   render() {
-    console.log(this.state.chosenExercises);
-
     return (
       <SafeAreaView>
         {this.state.exercises.map((exercise) => (
-          <ExerciseItem
-            key={exercise.id}
-            exercise={exercise}
-            addExercise={this.addExercise.bind(this)}
-            removeExercise={this.removeExercise.bind(this)}
-          />
+          <ExerciseItem key={exercise.id} exercise={exercise} />
         ))}
       </SafeAreaView>
     );

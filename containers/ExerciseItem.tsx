@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import Tag from '../components/Tag';
+import { connect } from 'react-redux';
+import { addExercise, removeExercise } from '../store/actions';
 
 const ItemContainer = styled.View`
   align-items: center;
@@ -57,15 +59,15 @@ interface Exercise {
 
 interface Props {
   exercise: Exercise;
-  addExercise: (Exercise) => void;
-  removeExercise: (Exercise) => void;
+  addExercise: (Exercise) => object;
+  removeExercise: (Exercise) => object;
 }
 
 interface State {
   isPressed: boolean;
 }
 
-export default class ExerciseItem extends React.Component<Props, State> {
+class ExerciseItem extends React.Component<Props, State> {
   state = {
     isPressed: false,
   };
@@ -85,6 +87,7 @@ export default class ExerciseItem extends React.Component<Props, State> {
 
   render() {
     const { exercise } = this.props;
+
     return (
       <ItemContainer>
         <ItemImage source={exercise.image} />
@@ -103,3 +106,13 @@ export default class ExerciseItem extends React.Component<Props, State> {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  addExercise: (exercise) => dispatch(addExercise(exercise)),
+  removeExercise: (exercise) => dispatch(removeExercise(exercise)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ExerciseItem);

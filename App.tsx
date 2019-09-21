@@ -3,6 +3,13 @@ import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import WorkoutCreator from './views/workout/WorkoutCreator';
 
+// Redux
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './store/reducers';
+
+const store = createStore(rootReducer);
+
 interface State {
   isReady: boolean;
 }
@@ -34,6 +41,10 @@ export default class App extends Component<{}, State> {
       );
     }
 
-    return <WorkoutCreator />;
+    return (
+      <Provider store={store}>
+        <WorkoutCreator />
+      </Provider>
+    );
   }
 }

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import ExerciseList from '../../containers/ExerciseList';
 import Header from '../../components/Header';
+import { connect } from 'react-redux';
 
-export default class WorkoutCreator extends Component {
+class WorkoutCreator extends Component {
   render() {
     return (
       <View>
@@ -17,3 +18,10 @@ export default class WorkoutCreator extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { workout } = state;
+  return { chosenExercises: workout };
+}
+
+export default connect(mapStateToProps)(WorkoutCreator);
