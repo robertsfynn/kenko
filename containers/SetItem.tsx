@@ -64,9 +64,18 @@ export default class SetItem extends Component {
     sets: [{ reps: '8', kg: '60' }, { reps: '8', kg: '60' }],
   };
 
+  handleChange = (text, index, name) => {
+    const sets = [...this.state.sets];
+    const set = sets[index];
+    set[name] = text;
+
+    console.log(sets);
+    this.setState({ sets: sets });
+  };
+
   render() {
     const { title, image } = this.props;
-console.log(this.state.sets[1].reps)
+
     return (
       <Container>
         <HeaderContainer>
@@ -74,7 +83,7 @@ console.log(this.state.sets[1].reps)
           <Title> {title} </Title>
         </HeaderContainer>
         {this.state.sets.map((set, index) => (
-          <SetContainer>
+          <SetContainer key={index}>
             <View style={{ flex: 1 }}>
               <Text>Set 1</Text>
             </View>
@@ -82,10 +91,14 @@ console.log(this.state.sets[1].reps)
               <TextInput
                 keyboardType={'numeric'}
                 value={set.reps}
-                // onChangeText={(text) => this.setState({sets[index].reps: text})}
+                onChangeText={(text) => this.handleChange(text, index, 'reps')}
               />
               <Text>*</Text>
-              <TextInput keyboardType={'numeric'} value={set.kg} />
+              <TextInput
+                keyboardType={'numeric'}
+                value={set.kg}
+                onChangeText={(text) => this.handleChange(text, index, 'kg')}
+              />
             </View>
           </SetContainer>
         ))}
