@@ -72,9 +72,20 @@ export default class SetItem extends Component {
     this.setState({ sets: sets });
   };
 
+  addSet = () => {
+    this.setState((prevState) => ({
+      sets: [...prevState.sets, { reps: '8', kg: '60' }],
+    }));
+  };
+
+  removeSet = () => {
+    const filteredSets = this.state.sets.slice(0, -1);
+    this.setState({ sets: filteredSets });
+  };
+
   render() {
     const { title, image } = this.props;
-
+    console.log(this.state);
     return (
       <Container>
         <HeaderContainer>
@@ -102,10 +113,10 @@ export default class SetItem extends Component {
           </SetContainer>
         ))}
         <BottomContainer>
-          <Button border onPress={() => console.log('REMOVE Set')}>
+          <Button border onPress={this.removeSet}>
             <ButtonText>Remove Set</ButtonText>
           </Button>
-          <Button onPress={() => console.log('ADD Set')}>
+          <Button onPress={this.addSet}>
             <ButtonText highlighted>Add Set</ButtonText>
           </Button>
         </BottomContainer>
