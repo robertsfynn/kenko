@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 
 class SetList extends Component {
   render() {
-    console.log(this.props);
     return (
       <View>
         {this.props.chosenExercises.map((exercise) => (
