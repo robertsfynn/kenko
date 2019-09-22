@@ -69,7 +69,6 @@ export default class SetItem extends Component {
     const set = sets[index];
     set[name] = text;
 
-    console.log(sets);
     this.setState({ sets: sets });
   };
 
