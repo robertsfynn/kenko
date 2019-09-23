@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import Tag from '../components/Tag';
+import { Tags } from '../components/Tags';
 import { connect } from 'react-redux';
 import { addExercise, removeExercise } from '../store/actions';
 
@@ -41,13 +41,6 @@ const ExerciseTitle = styled.Text`
   line-height: 22px;
   color: #23253a;
   margin-bottom: 5px;
-`;
-
-const TagContainer = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-self: flex-start;
-  width: 75%;
 `;
 
 interface Exercise {
@@ -93,11 +86,7 @@ class ExerciseItem extends React.Component<Props, State> {
         <ItemImage source={exercise.image} />
         <ExerciseContainer>
           <ExerciseTitle>{exercise.title}</ExerciseTitle>
-          <TagContainer>
-            {exercise.tags.map((tag) => (
-              <Tag key={tag} tag={tag} />
-            ))}
-          </TagContainer>
+          <Tags tags={exercise.tags} />
         </ExerciseContainer>
         <TouchableOpacity onPress={() => this.handlePress(exercise)}>
           <Checkbox isPressed={this.state.isPressed}></Checkbox>

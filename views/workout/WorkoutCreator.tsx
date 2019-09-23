@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import ExerciseList from '../../containers/ExerciseList';
 import Header from '../../components/Header';
 import SetList from '../../containers/SetList';
+import Summary from '../../components/Summary';
 import exercises from '../../assets/data/exercises';
 
 interface Exercise {
@@ -117,6 +118,9 @@ class WorkoutCreator extends Component<{}, State> {
             removeSet={this.removeSet}
           />
         );
+        break;
+      case 3:
+        currentPage = <Summary />;
         break;
       default:
         currentPage = null;
