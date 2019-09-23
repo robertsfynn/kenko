@@ -14,40 +14,16 @@ interface Exercise {
 }
 
 export default class ExerciseList extends Component<{}, State> {
-  state = {
-    exercises: [
-      {
-        id: 1,
-        title: 'Bench Press',
-        image: require('assets/bodyparts/bench-press.png'),
-        tags: ['Chest', 'Triceps', 'Deltoids'],
-      },
-      {
-        id: 2,
-        title: 'Pullups',
-        image: require('assets/bodyparts/bench-press.png'),
-        tags: ['Lats', 'Biceps'],
-      },
-      {
-        id: 3,
-        title: 'Squat',
-        image: require('assets/bodyparts/bench-press.png'),
-        tags: ['Quadriceps', 'Hamstrings'],
-      },
-      {
-        id: 4,
-        title: 'Deadlift',
-        image: require('assets/bodyparts/bench-press.png'),
-        tags: ['Hamstrings', 'Lower Back', 'Glutes', 'Other'],
-      },
-    ],
-  };
-
   render() {
     return (
       <SafeAreaView>
-        {this.state.exercises.map((exercise) => (
-          <ExerciseItem key={exercise.id} exercise={exercise} />
+        {this.props.exercises.map((exercise) => (
+          <ExerciseItem
+            key={exercise.id}
+            exercise={exercise}
+            addExercise={this.props.addExercise}
+            removeExercise={this.props.removeExercise}
+          />
         ))}
       </SafeAreaView>
     );

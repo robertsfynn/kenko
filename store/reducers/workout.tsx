@@ -1,5 +1,6 @@
 const initalState = {
   chosenExercises: [],
+  sets: [],
 };
 
 const workout = (state = initalState, action) => {
@@ -13,8 +14,18 @@ const workout = (state = initalState, action) => {
       return {
         ...state,
         chosenExercises: state.chosenExercises.filter(
-          (el) => el.id != action.exercise.id,
+          (el) => el.id !== action.exercise.id,
         ),
+      };
+    case 'ADD_SET':
+      return {
+        ...state,
+        sets: [...state.sets, action.set],
+      };
+    case 'REMOVE_SET':
+      return {
+        ...state,
+        sets: state.sets.slice(0, -1),
       };
     default:
       return state;

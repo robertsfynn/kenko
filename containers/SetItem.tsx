@@ -59,64 +59,54 @@ const ButtonText = styled.Text`
   color: ${(props) => (props.highlighted ? '#5063EE' : '#26262b')};
 `;
 
-export default class SetItem extends Component {
-  state = {
-    sets: [{ reps: '8', kg: '60' }, { reps: '8', kg: '60' }],
-  };
+interface State {}
 
-  handleChange = (text, index, name) => {
-    const sets = [...this.state.sets];
-    const set = sets[index];
-    set[name] = text;
-
-    this.setState({ sets: sets });
-  };
-
-  addSet = () => {
-    this.setState((prevState) => ({
-      sets: [...prevState.sets, { reps: '8', kg: '60' }],
-    }));
-  };
-
-  removeSet = () => {
-    const filteredSets = this.state.sets.slice(0, -1);
-    this.setState({ sets: filteredSets });
-  };
-
+class SetItem extends Component {
   render() {
-    const { title, image } = this.props;
-    console.log(this.state);
+    const {
+      title,
+      image,
+      sets,
+      exerciseID,
+      handleChange,
+      addSet,
+      removeSet,
+    } = this.props;
     return (
       <Container>
         <HeaderContainer>
           <SetImage source={image} />
           <Title> {title} </Title>
         </HeaderContainer>
-        {this.state.sets.map((set, index) => (
+        {sets.map((set, index) => (
           <SetContainer key={index}>
             <View style={{ flex: 1 }}>
               <Text>Set 1</Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <TextInput
-                keyboardType={'numeric'}
+                keyboardType="numeric"
                 value={set.reps}
-                onChangeText={(text) => this.handleChange(text, index, 'reps')}
+                onChangeText={(text) =>
+                  handleChange(text, index, 'reps', exerciseID)
+                }
               />
               <Text>*</Text>
               <TextInput
-                keyboardType={'numeric'}
+                keyboardType="numeric"
                 value={set.kg}
-                onChangeText={(text) => this.handleChange(text, index, 'kg')}
+                onChangeText={(text) =>
+                  handleChange(text, index, 'kg', exerciseID)
+                }
               />
             </View>
           </SetContainer>
         ))}
         <BottomContainer>
-          <Button border onPress={this.removeSet}>
+          <Button border onPress={() => removeSet(exerciseID)}>
             <ButtonText>Remove Set</ButtonText>
           </Button>
-          <Button onPress={this.addSet}>
+          <Button onPress={() => addSet(exerciseID)}>
             <ButtonText highlighted>Add Set</ButtonText>
           </Button>
         </BottomContainer>
@@ -124,3 +114,5 @@ export default class SetItem extends Component {
     );
   }
 }
+
+export default SetItem;

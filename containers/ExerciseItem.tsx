@@ -107,12 +107,4 @@ class ExerciseItem extends React.Component<Props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  addExercise: (exercise) => dispatch(addExercise(exercise)),
-  removeExercise: (exercise) => dispatch(removeExercise(exercise)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ExerciseItem);
+export default ExerciseItem;

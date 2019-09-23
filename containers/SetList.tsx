@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import SetItem from './SetItem';
-import PropTypes from 'prop-types';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+import SetItem from './SetItem';
 
 class SetList extends Component {
   render() {
@@ -12,7 +11,12 @@ class SetList extends Component {
           <SetItem
             title={exercise.title}
             key={exercise.id}
+            exerciseID={exercise.id}
             image={exercise.image}
+            sets={exercise.sets}
+            handleChange={this.props.handleChange}
+            addSet={this.props.addSet}
+            removeSet={this.props.removeSet}
           />
         ))}
       </View>
@@ -20,11 +24,4 @@ class SetList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { workout } = state;
-  return {
-    chosenExercises: workout.chosenExercises,
-  };
-};
-
-export default connect(mapStateToProps)(SetList);
+export default SetList;

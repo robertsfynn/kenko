@@ -1,28 +1,120 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View } from 'react-native';
 import ExerciseList from '../../containers/ExerciseList';
 import Header from '../../components/Header';
-import { connect } from 'react-redux';
 import SetList from '../../containers/SetList';
+import exercises from '../../assets/data/exercises';
+
+interface Exercise {
+  title: string;
+  id: number;
+  tags: string[];
+  image: any;
+  sets: object[];
+}
 
 interface State {
   step: number;
+  chosenExercises: Exercise[];
 }
 
 class WorkoutCreator extends Component<{}, State> {
   state = {
     step: 1,
+    chosenExercises: [],
+  };
+
+  addExercise = (exercise) => {
+    this.setState((prevState) => ({
+      chosenExercises: [...prevState.chosenExercises, exercise],
+    }));
+  };
+
+  removeExercise = (exercise) => {
+    this.setState((prevState) => ({
+      chosenExercises: prevState.chosenExercises.filter(
+        (el) => el.id !== exercise.id,
+      ),
+    }));
+  };
+
+  handleChange = (text, index, name, exerciseID) => {
+    this.setState((prevState) => {
+      const chosenExercises = [...prevState.chosenExercises];
+
+      chosenExercises.forEach((exercise) => {
+        if (exercise.id === exerciseID) {
+          const sets = [...exercise.sets];
+          const set = sets[index];
+          set[name] = text;
+
+          exercise.sets = sets;
+        }
+      });
+
+      return chosenExercises;
+    });
+  };
+
+  addSet = (exerciseID) => {
+    this.setState((prevState) => {
+      const chosenExercises = [...prevState.chosenExercises];
+
+      chosenExercises.forEach((exercise) => {
+        if (exercise.id === exerciseID) {
+          const sets = [...exercise.sets, { reps: '0', kg: '0' }];
+
+          exercise.sets = sets;
+        }
+      });
+
+      return chosenExercises;
+    });
+  };
+
+  removeSet = (exerciseID) => {
+    this.setState((prevState) => {
+      const chosenExercises = [...prevState.chosenExercises];
+
+      chosenExercises.forEach((exercise) => {
+        if (exercise.id === exerciseID) {
+          const sets = [...exercise.sets];
+          const updatedSets = sets.slice(0, -1);
+
+          exercise.sets = updatedSets;
+        }
+      });
+
+      return chosenExercises;
+    });
   };
 
   render() {
     let currentPage;
+    const { step } = this.state;
 
-    switch (this.state.step) {
+    switch (step) {
       case 1:
-        currentPage = <ExerciseList />;
+        currentPage = (
+          <ExerciseList
+            addExercise={this.addExercise}
+            removeExercise={this.removeExercise}
+            exercises={exercises}
+          />
+        );
         break;
       case 2:
-        currentPage = <SetList />;
+        currentPage = (
+          <SetList
+            chosenExercises={this.state.chosenExercises}
+            handleChange={this.handleChange}
+            addSet={this.addSet}
+            removeSet={this.removeSet}
+          />
+        );
+        break;
+      default:
+        currentPage = null;
     }
 
     return (
@@ -42,9 +134,4 @@ class WorkoutCreator extends Component<{}, State> {
   }
 }
 
-function mapStateToProps(state) {
-  const { workout } = state;
-  return { chosenExercises: workout.chosenExercises };
-}
-
-export default connect(mapStateToProps)(WorkoutCreator);
+export default WorkoutCreator;
