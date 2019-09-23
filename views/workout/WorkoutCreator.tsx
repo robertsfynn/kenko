@@ -68,7 +68,7 @@ class WorkoutCreator extends Component<{}, State> {
 
       chosenExercises.forEach((exercise) => {
         if (exercise.id === exerciseID) {
-          const sets = [...exercise.sets, { reps: '0', kg: '0' }];
+          const sets = [...exercise.sets, { reps: '', kg: '' }];
 
           exercise.sets = sets;
         }

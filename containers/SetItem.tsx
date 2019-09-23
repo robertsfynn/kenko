@@ -137,6 +137,7 @@ const SetItem = ({
               onChangeText={(text) =>
                 handleChange(text, index, 'reps', exerciseID)
               }
+              placeholder="0"
             />
             <UnitText>reps</UnitText>
           </View>
@@ -148,6 +149,7 @@ const SetItem = ({
               onChangeText={(text) =>
                 handleChange(text, index, 'kg', exerciseID)
               }
+              placeholder="0"
             />
             <UnitText>kg</UnitText>
           </View>
