@@ -6,4 +6,7 @@ module.exports = {
     'prettier/@typescript-eslint',
     'prettier/react',
   ],
+  rules: {
+    'react/state-in-constructor': 'off',
+  },
 };

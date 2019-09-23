@@ -24,13 +24,13 @@ class WorkoutCreator extends Component<{}, State> {
     chosenExercises: [],
   };
 
-  addExercise = (exercise) => {
+  addExercise = (exercise: Exercise) => {
     this.setState((prevState) => ({
       chosenExercises: [...prevState.chosenExercises, exercise],
     }));
   };
 
-  removeExercise = (exercise) => {
+  removeExercise = (exercise: Exercise) => {
     this.setState((prevState) => ({
       chosenExercises: prevState.chosenExercises.filter(
         (el) => el.id !== exercise.id,
@@ -38,7 +38,12 @@ class WorkoutCreator extends Component<{}, State> {
     }));
   };
 
-  handleChange = (text, index, name, exerciseID) => {
+  handleChange = (
+    text: string,
+    index: number,
+    name: string,
+    exerciseID: number,
+  ) => {
     this.setState((prevState) => {
       const chosenExercises = [...prevState.chosenExercises];
 
@@ -56,7 +61,7 @@ class WorkoutCreator extends Component<{}, State> {
     });
   };
 
-  addSet = (exerciseID) => {
+  addSet = (exerciseID: number) => {
     this.setState((prevState) => {
       const chosenExercises = [...prevState.chosenExercises];
 
@@ -72,7 +77,7 @@ class WorkoutCreator extends Component<{}, State> {
     });
   };
 
-  removeSet = (exerciseID) => {
+  removeSet = (exerciseID: number) => {
     this.setState((prevState) => {
       const chosenExercises = [...prevState.chosenExercises];
 

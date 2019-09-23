@@ -6,7 +6,7 @@ import SetItem from './SetItem';
 class SetList extends Component {
   render() {
     return (
-      <View>
+      <View style={{ paddingHorizontal: 20 }}>
         {this.props.chosenExercises.map((exercise) => (
           <SetItem
             title={exercise.title}
