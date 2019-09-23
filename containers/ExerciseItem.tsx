@@ -48,10 +48,12 @@ interface Exercise {
   id: number;
   tags: string[];
   image: any;
+  sets: object[];
 }
 
 interface Props {
   exercise: Exercise;
+  chosenExercises: Exercise[];
   addExercise: (Exercise) => object;
   removeExercise: (Exercise) => object;
 }
@@ -61,25 +63,16 @@ interface State {
 }
 
 class ExerciseItem extends React.Component<Props, State> {
-  state = {
-    isPressed: false,
-  };
-
-  handlePress = (exercise) => {
-    this.setState(
-      (prevState) => ({
-        isPressed: !prevState.isPressed,
-      }),
-      () => {
-        this.state.isPressed
-          ? this.props.addExercise(exercise)
-          : this.props.removeExercise(exercise);
-      },
-    );
+  handlePress = (exercise: Exercise, isPressed: boolean) => {
+    !isPressed
+      ? this.props.addExercise(exercise)
+      : this.props.removeExercise(exercise);
   };
 
   render() {
-    const { exercise } = this.props;
+    const { exercise, chosenExercises } = this.props;
+
+    const isPressed = chosenExercises.includes(exercise);
 
     return (
       <ItemContainer>
@@ -88,8 +81,8 @@ class ExerciseItem extends React.Component<Props, State> {
           <ExerciseTitle>{exercise.title}</ExerciseTitle>
           <Tags tags={exercise.tags} />
         </ExerciseContainer>
-        <TouchableOpacity onPress={() => this.handlePress(exercise)}>
-          <Checkbox isPressed={this.state.isPressed}></Checkbox>
+        <TouchableOpacity onPress={() => this.handlePress(exercise, isPressed)}>
+          <Checkbox isPressed={isPressed} />
         </TouchableOpacity>
       </ItemContainer>
     );

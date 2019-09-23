@@ -20,6 +20,7 @@ export default class ExerciseList extends Component<{}, State> {
         {this.props.exercises.map((exercise) => (
           <ExerciseItem
             key={exercise.id}
+            chosenExercises={this.props.chosenExercises}
             exercise={exercise}
             addExercise={this.props.addExercise}
             removeExercise={this.props.removeExercise}

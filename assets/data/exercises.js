@@ -4,7 +4,7 @@ const exercises = [
     title: 'Bench Press',
     image: require('assets/bodyparts/bench-press.png'),
     tags: ['Chest', 'Triceps', 'Deltoids'],
-    sets: [{ reps: '0', kg: '0' }],
+    sets: [],
   },
   {
     id: 2,

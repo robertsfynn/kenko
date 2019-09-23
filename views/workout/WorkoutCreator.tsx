@@ -95,51 +95,74 @@ class WorkoutCreator extends Component<{}, State> {
     });
   };
 
+  hasAtLeatOneSet = (exercise) => {
+    return exercise.sets.length > 0;
+  };
+
   render() {
     let currentPage;
-    const { step } = this.state;
+    const { step, chosenExercises } = this.state;
 
     switch (step) {
       case 1:
         currentPage = (
-          <ExerciseList
-            addExercise={this.addExercise}
-            removeExercise={this.removeExercise}
-            exercises={exercises}
-          />
+          <>
+            <Header
+              title="Add Exercises"
+              subtitle="Workout creation"
+              handleNext={() =>
+                this.setState((prevState) => ({
+                  step: prevState.step + 1,
+                }))
+              }
+              nextActive={this.state.chosenExercises.length}
+            />
+            <ExerciseList
+              addExercise={this.addExercise}
+              removeExercise={this.removeExercise}
+              exercises={exercises}
+              chosenExercises={chosenExercises}
+            />
+          </>
         );
         break;
       case 2:
         currentPage = (
-          <SetList
-            chosenExercises={this.state.chosenExercises}
-            handleChange={this.handleChange}
-            addSet={this.addSet}
-            removeSet={this.removeSet}
-          />
+          <>
+            <Header
+              title="Add Sets"
+              subtitle="Workout creation"
+              handleNext={() =>
+                this.setState((prevState) => ({
+                  step: prevState.step + 1,
+                }))
+              }
+              handleBack={() =>
+                this.setState((prevState) => ({
+                  step: prevState.step - 1,
+                }))
+              }
+              nextActive={this.state.chosenExercises.every(
+                this.hasAtLeatOneSet,
+              )}
+            />
+            <SetList
+              chosenExercises={chosenExercises}
+              handleChange={this.handleChange}
+              addSet={this.addSet}
+              removeSet={this.removeSet}
+            />
+          </>
         );
         break;
       case 3:
-        currentPage = <Summary />;
+        currentPage = <Summary chosenExercises={chosenExercises} />;
         break;
       default:
         currentPage = null;
     }
 
-    return (
-      <View>
-        <Header
-          title="Add Exercises"
-          subtitle="Workout creation"
-          handlePress={() =>
-            this.setState((prevState) => ({
-              step: prevState.step + 1,
-            }))
-          }
-        />
-        {currentPage}
-      </View>
-    );
+    return <View>{currentPage}</View>;
   }
 }
 
