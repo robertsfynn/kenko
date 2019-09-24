@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import styled from 'styled-components/native';
+import { connect } from 'react-redux';
+import { handleSetChange, addSet, removeSet } from '../store/actions/workout';
 
 const Container = styled.View`
   background: #ffffff;
@@ -100,14 +102,12 @@ const Multiply = styled.Text`
   opacity: 0.6;
 `;
 
-interface State {}
-
 const SetItem = ({
   title,
   image,
   sets,
   exerciseID,
-  handleChange,
+  handleSetChange,
   addSet,
   removeSet,
 }) => (
@@ -116,12 +116,12 @@ const SetItem = ({
       <SetImage source={image} />
       <Title> {title} </Title>
     </HeaderContainer>
-    {sets.map((set, index) => (
-      <SetContainer key={index}>
+    {sets.map((set, setIndex) => (
+      <SetContainer key={setIndex}>
         <View
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
-          <SetText>{`Set ${index + 1}`}</SetText>
+          <SetText>{`Set ${setIndex + 1}`}</SetText>
         </View>
         <View
           style={{
@@ -135,7 +135,7 @@ const SetItem = ({
               keyboardType="numeric"
               value={set.reps}
               onChangeText={(text) =>
-                handleChange(text, index, 'reps', exerciseID)
+                handleSetChange(text, setIndex, 'reps', exerciseID)
               }
               placeholder="0"
             />
@@ -147,7 +147,7 @@ const SetItem = ({
               keyboardType="numeric"
               value={set.kg}
               onChangeText={(text) =>
-                handleChange(text, index, 'kg', exerciseID)
+                handleSetChange(text, setIndex, 'kg', exerciseID)
               }
               placeholder="0"
             />
@@ -167,4 +167,18 @@ const SetItem = ({
   </Container>
 );
 
-export default SetItem;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleSetChange: (text, setIndex, name, exerciseID) => {
+      return dispatch(handleSetChange(text, setIndex, name, exerciseID));
+    },
+
+    addSet: (exerciseID) => dispatch(addSet(exerciseID)),
+    removeSet: (exerciseID) => dispatch(removeSet(exerciseID)),
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SetItem);

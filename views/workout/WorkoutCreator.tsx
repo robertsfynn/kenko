@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 import ExerciseList from '../../containers/ExerciseList';
 import Header from '../../components/Header';
 import SetList from '../../containers/SetList';
 import Summary from '../../components/Summary';
-import exercises from '../../assets/data/exercises';
 
 interface Exercise {
   title: string;
@@ -16,70 +16,15 @@ interface Exercise {
 
 interface State {
   step: number;
+}
+
+interface Props {
   chosenExercises: Exercise[];
 }
 
-class WorkoutCreator extends Component<{}, State> {
+class WorkoutCreator extends Component<Props, State> {
   state = {
     step: 1,
-    chosenExercises: [],
-  };
-
-  addExercise = (exercise: Exercise) => {
-    this.setState((prevState) => ({
-      chosenExercises: [...prevState.chosenExercises, exercise],
-    }));
-  };
-
-  removeExercise = (exercise: Exercise) => {
-    this.setState((prevState) => ({
-      chosenExercises: prevState.chosenExercises.filter(
-        (el) => el.id !== exercise.id,
-      ),
-    }));
-  };
-
-  handleChange = (
-    text: string,
-    setIndex: number,
-    name: string,
-    exerciseID: number,
-  ) => {
-    this.setState((prevState) => {
-      return {
-        chosenExercises: prevState.chosenExercises.map((exercise) => {
-          if (exercise.id !== exerciseID) return exercise;
-
-          const updatedSets = exercise.sets.map((set, index) => {
-            if (index !== setIndex) return set;
-
-            return { ...set, [name]: text };
-          });
-
-          return { ...exercise, sets: updatedSets };
-        }),
-      };
-    });
-  };
-
-  addSet = (exerciseID: number) => {
-    this.setState((prevState) => ({
-      chosenExercises: prevState.chosenExercises.map((exercise) => {
-        if (exercise.id !== exerciseID) return exercise;
-
-        return { ...exercise, sets: [...exercise.sets, { reps: '', kg: '' }] };
-      }),
-    }));
-  };
-
-  removeSet = (exerciseID: number) => {
-    this.setState((prevState) => ({
-      chosenExercises: prevState.chosenExercises.map((exercise) => {
-        if (exercise.id !== exerciseID) return exercise;
-
-        return { ...exercise, sets: [...exercise.sets.slice(0, -1)] };
-      }),
-    }));
   };
 
   hasAtLeatOneSet = (exercise) => {
@@ -88,7 +33,8 @@ class WorkoutCreator extends Component<{}, State> {
 
   render() {
     let currentPage;
-    const { step, chosenExercises } = this.state;
+    const { step } = this.state;
+    const { chosenExercises } = this.props;
 
     switch (step) {
       case 1:
@@ -102,14 +48,9 @@ class WorkoutCreator extends Component<{}, State> {
                   step: prevState.step + 1,
                 }))
               }
-              nextActive={this.state.chosenExercises.length}
+              nextActive={chosenExercises.length}
             />
-            <ExerciseList
-              addExercise={this.addExercise}
-              removeExercise={this.removeExercise}
-              exercises={exercises}
-              chosenExercises={chosenExercises}
-            />
+            <ExerciseList />
           </>
         );
         break;
@@ -129,16 +70,9 @@ class WorkoutCreator extends Component<{}, State> {
                   step: prevState.step - 1,
                 }))
               }
-              nextActive={this.state.chosenExercises.every(
-                this.hasAtLeatOneSet,
-              )}
+              nextActive={chosenExercises.every(this.hasAtLeatOneSet)}
             />
-            <SetList
-              chosenExercises={chosenExercises}
-              handleChange={this.handleChange}
-              addSet={this.addSet}
-              removeSet={this.removeSet}
-            />
+            <SetList chosenExercises={chosenExercises} />
           </>
         );
         break;
@@ -153,4 +87,9 @@ class WorkoutCreator extends Component<{}, State> {
   }
 }
 
-export default WorkoutCreator;
+const mapStateToProps = (state) => {
+  const { workout } = state;
+  return { chosenExercises: workout.chosenExercises };
+};
+
+export default connect(mapStateToProps)(WorkoutCreator);

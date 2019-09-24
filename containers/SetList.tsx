@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import SetItem from './SetItem';
 
-class SetList extends Component {
-  render() {
-    return (
-      <View style={{ paddingHorizontal: 20 }}>
-        {this.props.chosenExercises.map((exercise) => (
-          <SetItem
-            title={exercise.title}
-            key={exercise.id}
-            exerciseID={exercise.id}
-            image={exercise.image}
-            sets={exercise.sets}
-            handleChange={this.props.handleChange}
-            addSet={this.props.addSet}
-            removeSet={this.props.removeSet}
-          />
-        ))}
-      </View>
-    );
-  }
-}
+const SetList = ({ chosenExercises }) => (
+  <View style={{ paddingHorizontal: 20 }}>
+    {chosenExercises.map((exercise) => (
+      <SetItem
+        title={exercise.title}
+        key={exercise.id}
+        exerciseID={exercise.id}
+        image={exercise.image}
+        sets={exercise.sets}
+      />
+    ))}
+  </View>
+);
 
-export default SetList;
+const mapStateToProps = (state) => {
+  const { workout } = state;
+
+  return { chosenExercises: workout.chosenExercises };
+};
+
+export default connect(mapStateToProps)(SetList);

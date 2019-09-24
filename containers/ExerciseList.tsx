@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import React from 'react';
+import { SafeAreaView } from 'react-native';
+import { connect } from 'react-redux';
 import ExerciseItem from './ExerciseItem';
+import exercises from '../assets/data/exercises';
 
 interface State {
   exercises: Exercise[];
@@ -13,20 +15,24 @@ interface Exercise {
   image: any;
 }
 
-export default class ExerciseList extends Component<{}, State> {
-  render() {
-    return (
-      <SafeAreaView>
-        {this.props.exercises.map((exercise) => (
-          <ExerciseItem
-            key={exercise.id}
-            chosenExercises={this.props.chosenExercises}
-            exercise={exercise}
-            addExercise={this.props.addExercise}
-            removeExercise={this.props.removeExercise}
-          />
-        ))}
-      </SafeAreaView>
-    );
-  }
-}
+const ExerciseList = ({ chosenExercises }) => (
+  <SafeAreaView>
+    {exercises.map((exercise) => (
+      <ExerciseItem
+        key={exercise.id}
+        chosenExercises={chosenExercises}
+        exercise={exercise}
+      />
+    ))}
+  </SafeAreaView>
+);
+
+const mapStateToProps = (state) => {
+  const { workout } = state;
+
+  return {
+    chosenExercises: workout.chosenExercises,
+  };
+};
+
+export default connect(mapStateToProps)(ExerciseList);
