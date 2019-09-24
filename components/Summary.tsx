@@ -2,11 +2,10 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { PurpleTags } from 'components/Tags';
 
-const Summary = () => {
+const Summary = ({ chosenExercises }) => {
   return (
     <View>
       <Text>Muscles Involved</Text>
-      <PurpleTags />
     </View>
   );
 };

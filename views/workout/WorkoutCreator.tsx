@@ -41,58 +41,45 @@ class WorkoutCreator extends Component<{}, State> {
 
   handleChange = (
     text: string,
-    index: number,
+    setIndex: number,
     name: string,
     exerciseID: number,
   ) => {
     this.setState((prevState) => {
-      const chosenExercises = [...prevState.chosenExercises];
+      return {
+        chosenExercises: prevState.chosenExercises.map((exercise) => {
+          if (exercise.id !== exerciseID) return exercise;
 
-      chosenExercises.forEach((exercise) => {
-        if (exercise.id === exerciseID) {
-          const sets = [...exercise.sets];
-          const set = sets[index];
-          set[name] = text;
+          const updatedSets = exercise.sets.map((set, index) => {
+            if (index !== setIndex) return set;
 
-          exercise.sets = sets;
-        }
-      });
+            return { ...set, [name]: text };
+          });
 
-      return chosenExercises;
+          return { ...exercise, sets: updatedSets };
+        }),
+      };
     });
   };
 
   addSet = (exerciseID: number) => {
-    this.setState((prevState) => {
-      const chosenExercises = [...prevState.chosenExercises];
+    this.setState((prevState) => ({
+      chosenExercises: prevState.chosenExercises.map((exercise) => {
+        if (exercise.id !== exerciseID) return exercise;
 
-      chosenExercises.forEach((exercise) => {
-        if (exercise.id === exerciseID) {
-          const sets = [...exercise.sets, { reps: '', kg: '' }];
-
-          exercise.sets = sets;
-        }
-      });
-
-      return chosenExercises;
-    });
+        return { ...exercise, sets: [...exercise.sets, { reps: '', kg: '' }] };
+      }),
+    }));
   };
 
   removeSet = (exerciseID: number) => {
-    this.setState((prevState) => {
-      const chosenExercises = [...prevState.chosenExercises];
+    this.setState((prevState) => ({
+      chosenExercises: prevState.chosenExercises.map((exercise) => {
+        if (exercise.id !== exerciseID) return exercise;
 
-      chosenExercises.forEach((exercise) => {
-        if (exercise.id === exerciseID) {
-          const sets = [...exercise.sets];
-          const updatedSets = sets.slice(0, -1);
-
-          exercise.sets = updatedSets;
-        }
-      });
-
-      return chosenExercises;
-    });
+        return { ...exercise, sets: [...exercise.sets.slice(0, -1)] };
+      }),
+    }));
   };
 
   hasAtLeatOneSet = (exercise) => {

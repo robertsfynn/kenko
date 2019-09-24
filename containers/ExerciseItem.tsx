@@ -72,7 +72,9 @@ class ExerciseItem extends React.Component<Props, State> {
   render() {
     const { exercise, chosenExercises } = this.props;
 
-    const isPressed = chosenExercises.includes(exercise);
+    const isPressed = chosenExercises.some(
+      (chosenExercise) => chosenExercise.id === exercise.id,
+    );
 
     return (
       <ItemContainer>
