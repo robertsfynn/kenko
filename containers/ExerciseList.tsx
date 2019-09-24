@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import ExerciseItem from './ExerciseItem';
 import exercises from '../assets/data/exercises';
 
-interface State {
-  exercises: Exercise[];
-}
-
 interface Exercise {
   title: string;
   id: number;

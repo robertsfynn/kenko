@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
-import { Tags } from '../components/Tags';
 import { connect } from 'react-redux';
+import { Tags } from '../components/Tags';
 import { addExercise, removeExercise } from '../store/actions';
 
 const ItemContainer = styled.View`
@@ -62,38 +62,37 @@ interface State {
   isPressed: boolean;
 }
 
-class ExerciseItem extends React.Component<Props, State> {
-  handlePress = (exercise: Exercise, isPressed: boolean) => {
-    !isPressed
-      ? this.props.addExercise(exercise)
-      : this.props.removeExercise(exercise);
+const ExerciseItem = ({
+  chosenExercises,
+  exercise,
+  addExercise,
+  removeExercise,
+}) => {
+  const handlePress = (exercise: Exercise, isPressed: boolean) => {
+    !isPressed ? addExercise(exercise) : removeExercise(exercise);
   };
 
-  render() {
-    const { exercise, chosenExercises } = this.props;
+  const isPressed = chosenExercises.some(
+    (chosenExercise) => chosenExercise.id === exercise.id,
+  );
 
-    const isPressed = chosenExercises.some(
-      (chosenExercise) => chosenExercise.id === exercise.id,
-    );
+  return (
+    <ItemContainer>
+      <ItemImage source={exercise.image} />
+      <ExerciseContainer>
+        <ExerciseTitle>{exercise.title}</ExerciseTitle>
+        <Tags tags={exercise.tags} />
+      </ExerciseContainer>
+      <TouchableOpacity onPress={() => handlePress(exercise, isPressed)}>
+        <Checkbox isPressed={isPressed} />
+      </TouchableOpacity>
+    </ItemContainer>
+  );
+};
 
-    return (
-      <ItemContainer>
-        <ItemImage source={exercise.image} />
-        <ExerciseContainer>
-          <ExerciseTitle>{exercise.title}</ExerciseTitle>
-          <Tags tags={exercise.tags} />
-        </ExerciseContainer>
-        <TouchableOpacity onPress={() => this.handlePress(exercise, isPressed)}>
-          <Checkbox isPressed={isPressed} />
-        </TouchableOpacity>
-      </ItemContainer>
-    );
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  addExercise: () => dispatch(addExercise(ownProps.exercise)),
-  removeExercise: () => dispatch(removeExercise(ownProps.exercise)),
+const mapDispatchToProps = (dispatch) => ({
+  addExercise: (exercise) => dispatch(addExercise(exercise)),
+  removeExercise: (exercise) => dispatch(removeExercise(exercise)),
 });
 
 export default connect(
