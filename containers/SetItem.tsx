@@ -84,7 +84,6 @@ const UnitText = styled.Text`
   font-family: Questrial;
   font-size: 12px;
   line-height: 12px;
-  text-align: center;
   color: #23253a;
   opacity: 0.7;
 `;
