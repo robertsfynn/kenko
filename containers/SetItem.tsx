@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Text, View, TextInput } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 import { handleSetChange, addSet, removeSet } from '../store/actions/workout';
@@ -59,7 +59,6 @@ const ButtonText = styled.Text`
   padding: 20px;
   border-right-width: 1px;
   border-right-color: #e9eaf2;
-
   color: ${(props) => (props.highlighted ? '#5063EE' : '#26262b')};
 `;
 
@@ -95,9 +94,7 @@ const Multiply = styled.Text`
   font-size: 28px;
   line-height: 29px;
   text-align: center;
-
   color: #484856;
-
   opacity: 0.6;
 `;
 

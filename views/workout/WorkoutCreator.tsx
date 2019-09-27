@@ -13,7 +13,6 @@ import ExerciseItem from '../../containers/ExerciseItem';
 import exercises from '../../assets/data/exercises';
 import SetItem from '../../containers/SetItem';
 import styled from 'styled-components/native';
-import workout from '../../store/reducers/workout';
 
 interface Exercise {
   title: string;
@@ -56,20 +55,23 @@ class WorkoutCreator extends Component<Props, State> {
 
     const currentWorkouts =
       JSON.parse(await AsyncStorage.getItem('workouts')) || [];
+
     const existingWorkoutIndex = currentWorkouts.findIndex(
       (currentWorkout) => currentWorkout.id === this.props.workout.id,
     );
 
-    existingWorkoutIndex === -1
-      ? currentWorkouts.push(workout)
-      : (currentWorkouts[existingWorkoutIndex] = workout);
+    let updatedData;
 
-    await AsyncStorage.setItem('workouts', JSON.stringify(currentWorkouts));
-  };
+    if (existingWorkoutIndex === -1)
+      updatedData = [...currentWorkouts, workout];
+    else {
+      updatedData = currentWorkouts.map((currentWorkout, index) => {
+        if (existingWorkoutIndex !== index) return currentWorkout;
+        return { ...currentWorkout, ...workout };
+      });
+    }
 
-  getWorkouts = async () => {
-    const currentWorkouts =
-      JSON.parse(await AsyncStorage.getItem('workouts')) || [];
+    await AsyncStorage.setItem('workouts', JSON.stringify(updatedData));
   };
 
   nextStep = () => {
@@ -90,7 +92,6 @@ class WorkoutCreator extends Component<Props, State> {
 
   render() {
     let currentPage;
-    this.getWorkouts();
     const { step } = this.state;
     const { workout } = this.props;
 

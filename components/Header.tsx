@@ -66,6 +66,8 @@ interface Props {
   handleBack: () => void;
   nextActive: boolean;
   workout?: object;
+  nextText: string;
+  handleTitleChange: () => void;
 }
 
 const Header = ({

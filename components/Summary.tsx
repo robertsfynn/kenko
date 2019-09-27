@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { PurpleTags } from 'components/Tags';
-import { handleTitleChange } from '../store/actions/workout';
 import SetItem from '../containers/SetItem';
+import { PurpleTags } from './Tags';
 
 const Container = styled.View`
   padding: 0 20px;
