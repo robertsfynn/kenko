@@ -1,34 +1,46 @@
 import React from 'react';
-import { SafeAreaView, Text, AsyncStorage } from 'react-native';
+import { View, Text, AsyncStorage } from 'react-native';
 import styled from 'styled-components/native';
 import { PurpleTags } from 'components/Tags';
 import { connect } from 'react-redux';
 import Button from './Button';
 import { handleTitleChange } from '../store/actions/workout';
 
-const Input = styled.TextInput``;
+const InputContainer = styled.View`
+  background-color: #2f325a;
+  padding: 0 20px 30px 20px;
+  margin-top: -20px;
+`;
+
+const InputLabel = styled.Text`
+  font-family: Questrial;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 12px;
+  color: rgba(254, 254, 254, 0.6);
+  margin-bottom: 6px;
+`;
+
+const Input = styled.TextInput`
+  font-family: Rubik;
+  font-size: 15px;
+  line-height: 18px;
+  color: #ffffff;
+  padding-bottom: 15px;
+  border-bottom-color: #5063ee;
+  border-bottom-width: 1px;
+`;
 
 const Summary = ({ workout, handleTitleChange }) => {
-  const storeWorkout = async () => {
-    try {
-      const currentWorkouts =
-        JSON.parse(await AsyncStorage.getItem('workouts')) || [];
-      const updatedWorkouts = [...currentWorkouts, workout];
-      await AsyncStorage.setItem('workouts', JSON.stringify(updatedWorkouts));
-    } catch (error) {
-      // Error saving data
-    }
-  };
-
   return (
-    <SafeAreaView>
+    <InputContainer>
+      <InputLabel>Workout name</InputLabel>
       <Input
         value={workout.title}
         onChangeText={(text) => handleTitleChange(text)}
-        placeholder="Title"
       />
-      <Button text="SAVE" onPress={storeWorkout} />
-    </SafeAreaView>
+    </InputContainer>
   );
 };
 

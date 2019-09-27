@@ -56,12 +56,7 @@ const Header = ({
   handleBack,
   nextActive,
 }: Props) => (
-  <LinearGradient
-    colors={['#23253A', '#5063EE']}
-    start={[0, 0]}
-    end={[0, 2.5]}
-    style={{ height: 180 }}
-  >
+  <View style={{ backgroundColor: '#2f325a', height: 180 }}>
     <SafeAreaView>
       <Container>
         <View
@@ -83,7 +78,16 @@ const Header = ({
         <Subtitle>{subtitle}</Subtitle>
       </Container>
     </SafeAreaView>
-  </LinearGradient>
+  </View>
 );
+
+{
+  /* <LinearGradient
+    colors={['#23253A', '#5063EE']}
+    start={[0, 0]}
+    end={[0, 2.5]}
+    style={{ height: 180 }}
+  ></LinearGradient> */
+}
 
 export default Header;

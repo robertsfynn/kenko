@@ -8,7 +8,6 @@ import { addExercise, removeExercise } from '../store/actions';
 const ItemContainer = styled.View`
   align-items: center;
   flex-direction: row;
-  margin: 0 20px;
   padding-bottom: 15px;
   padding-top: 10px;
   border-bottom-color: #dfdfe6;

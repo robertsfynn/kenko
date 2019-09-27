@@ -6,6 +6,10 @@ import Header from '../../components/Header';
 import SetList from '../../containers/SetList';
 import Summary from '../../components/Summary';
 import { createWorkout } from '../../store/actions/workout';
+import ExerciseItem from '../../containers/ExerciseItem';
+import exercises from '../../assets/data/exercises';
+import SetItem from '../../containers/SetItem';
+import styled from 'styled-components/native';
 
 interface Exercise {
   title: string;
@@ -17,6 +21,7 @@ interface Exercise {
 
 interface Workout {
   id: string;
+  title: string;
   chosenExercises: Exercise[];
 }
 
@@ -29,6 +34,10 @@ interface Props {
   createWorkout: () => void;
 }
 
+const Container = styled.View`
+  padding: 0 20px;
+`;
+
 class WorkoutCreator extends Component<Props, State> {
   state = {
     step: 1,
@@ -38,6 +47,25 @@ class WorkoutCreator extends Component<Props, State> {
     this.props.createWorkout();
   }
 
+  storeWorkout = async () => {
+    const currentWorkouts =
+      JSON.parse(await AsyncStorage.getItem('workouts')) || [];
+    const updatedWorkouts = [...currentWorkouts, this.props.workout];
+    await AsyncStorage.setItem('workouts', JSON.stringify(updatedWorkouts));
+  };
+
+  nextStep = () => {
+    this.setState((prevState) => ({
+      step: prevState.step + 1,
+    }));
+  };
+
+  prevStep = () => {
+    this.setState((prevState) => ({
+      step: prevState.step - 1,
+    }));
+  };
+
   hasAtLeatOneSet = (exercise: Exercise) => {
     return exercise.sets.length > 0;
   };
@@ -46,7 +74,7 @@ class WorkoutCreator extends Component<Props, State> {
     let currentPage;
     const { step } = this.state;
     const { workout } = this.props;
-    
+
     switch (step) {
       case 1:
         currentPage = (
@@ -54,14 +82,18 @@ class WorkoutCreator extends Component<Props, State> {
             <Header
               title="Add Exercises"
               subtitle="Workout creation"
-              handleNext={() =>
-                this.setState((prevState) => ({
-                  step: prevState.step + 1,
-                }))
-              }
-              nextActive={workout.chosenExercises.length}
+              handleNext={this.nextStep}
+              nextActive={workout.chosenExercises.length > 0}
             />
-            <ExerciseList />
+            <Container>
+              {exercises.map((exercise) => (
+                <ExerciseItem
+                  key={exercise.id}
+                  chosenExercises={workout.chosenExercises}
+                  exercise={exercise}
+                />
+              ))}
+            </Container>
           </>
         );
         break;
@@ -71,24 +103,36 @@ class WorkoutCreator extends Component<Props, State> {
             <Header
               title="Add Sets"
               subtitle="Workout creation"
-              handleNext={() =>
-                this.setState((prevState) => ({
-                  step: prevState.step + 1,
-                }))
-              }
-              handleBack={() =>
-                this.setState((prevState) => ({
-                  step: prevState.step - 1,
-                }))
-              }
+              handleNext={this.nextStep}
+              handleBack={this.prevStep}
               nextActive={workout.chosenExercises.every(this.hasAtLeatOneSet)}
             />
-            <SetList chosenExercises={workout.chosenExercises} />
+            <Container>
+              {workout.chosenExercises.map((exercise) => (
+                <SetItem
+                  title={exercise.title}
+                  key={exercise.id}
+                  exerciseID={exercise.id}
+                  image={exercise.image}
+                  sets={exercise.sets}
+                />
+              ))}
+            </Container>
           </>
         );
         break;
       case 3:
-        currentPage = <Summary workout={workout} />;
+        currentPage = (
+          <>
+            <Header
+              title="Summary"
+              handleNext={this.storeWorkout}
+              handleBack={this.prevStep}
+              nextActive={!!workout.title}
+            />
+            <Summary workout={workout} />
+          </>
+        );
         break;
       default:
         currentPage = null;
