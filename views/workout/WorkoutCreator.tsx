@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import ExerciseList from '../../containers/ExerciseList';
 import Header from '../../components/Header';
 import SetList from '../../containers/SetList';
 import Summary from '../../components/Summary';
+import { createWorkout } from '../../store/actions/workout';
 
 interface Exercise {
   title: string;
@@ -14,12 +15,18 @@ interface Exercise {
   sets: object[];
 }
 
+interface Workout {
+  id: string;
+  chosenExercises: Exercise[];
+}
+
 interface State {
   step: number;
 }
 
 interface Props {
-  chosenExercises: Exercise[];
+  workout: Workout;
+  createWorkout: () => void;
 }
 
 class WorkoutCreator extends Component<Props, State> {
@@ -27,15 +34,28 @@ class WorkoutCreator extends Component<Props, State> {
     step: 1,
   };
 
-  hasAtLeatOneSet = (exercise) => {
+  componentWillMount() {
+    this.props.createWorkout();
+  }
+
+  hasAtLeatOneSet = (exercise: Exercise) => {
     return exercise.sets.length > 0;
+  };
+
+  getWorkouts = async () => {
+    try {
+      const currentWorkouts = await AsyncStorage.getItem('workouts');
+      console.log(JSON.parse(currentWorkouts));
+    } catch (error) {
+      // Error saving data
+    }
   };
 
   render() {
     let currentPage;
     const { step } = this.state;
-    const { chosenExercises } = this.props;
-
+    const { workout } = this.props;
+    this.getWorkouts();
     switch (step) {
       case 1:
         currentPage = (
@@ -48,7 +68,7 @@ class WorkoutCreator extends Component<Props, State> {
                   step: prevState.step + 1,
                 }))
               }
-              nextActive={chosenExercises.length}
+              nextActive={workout.chosenExercises.length}
             />
             <ExerciseList />
           </>
@@ -70,14 +90,14 @@ class WorkoutCreator extends Component<Props, State> {
                   step: prevState.step - 1,
                 }))
               }
-              nextActive={chosenExercises.every(this.hasAtLeatOneSet)}
+              nextActive={workout.chosenExercises.every(this.hasAtLeatOneSet)}
             />
-            <SetList chosenExercises={chosenExercises} />
+            <SetList chosenExercises={workout.chosenExercises} />
           </>
         );
         break;
       case 3:
-        currentPage = <Summary chosenExercises={chosenExercises} />;
+        currentPage = <Summary workout={workout} />;
         break;
       default:
         currentPage = null;
@@ -87,9 +107,16 @@ class WorkoutCreator extends Component<Props, State> {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  createWorkout: () => dispatch(createWorkout()),
+});
+
 const mapStateToProps = (state) => {
   const { workout } = state;
-  return { chosenExercises: workout.chosenExercises };
+  return { workout };
 };
 
-export default connect(mapStateToProps)(WorkoutCreator);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(WorkoutCreator);

@@ -30,3 +30,7 @@ export const removeSet = (exerciseID: number) => ({
   type: 'REMOVE_SET',
   exerciseID,
 });
+
+export const createWorkout = () => ({
+  type: 'CREATE_WORKOUT',
+});

@@ -1,9 +1,19 @@
 const initalState = {
+  id: null,
   chosenExercises: [],
 };
 
 const workout = (state = initalState, action) => {
   switch (action.type) {
+    case 'CREATE_WORKOUT':
+      const randomID = Math.random()
+        .toString(36)
+        .substr(2, 9);
+
+      return {
+        ...state,
+        id: randomID,
+      };
     case 'ADD_EXERCISE':
       return {
         ...state,
@@ -18,6 +28,7 @@ const workout = (state = initalState, action) => {
       };
     case 'HANDLE_SET_CHANGE':
       return {
+        ...state,
         chosenExercises: state.chosenExercises.map((exercise) => {
           if (exercise.id !== action.exerciseID) return exercise;
 
@@ -32,6 +43,7 @@ const workout = (state = initalState, action) => {
       };
     case 'ADD_SET':
       return {
+        ...state,
         chosenExercises: state.chosenExercises.map((exercise) => {
           if (exercise.id !== action.exerciseID) return exercise;
 
@@ -43,6 +55,7 @@ const workout = (state = initalState, action) => {
       };
     case 'REMOVE_SET':
       return {
+        ...state,
         chosenExercises: state.chosenExercises.map((exercise) => {
           if (exercise.id !== action.exerciseID) return exercise;
 
