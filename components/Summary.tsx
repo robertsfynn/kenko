@@ -1,32 +1,42 @@
 import React from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
+import { SafeAreaView, Text, AsyncStorage } from 'react-native';
+import styled from 'styled-components/native';
 import { PurpleTags } from 'components/Tags';
+import { connect } from 'react-redux';
 import Button from './Button';
+import { handleTitleChange } from '../store/actions/workout';
 
-const Summary = ({ workout }) => {
+const Input = styled.TextInput``;
+
+const Summary = ({ workout, handleTitleChange }) => {
   const storeWorkout = async () => {
     try {
       const currentWorkouts =
         JSON.parse(await AsyncStorage.getItem('workouts')) || [];
-      console.log('CURRENT WORKOUTS');
-      console.log(currentWorkouts);
-      console.log('WORKOUT');
-      console.log(workout);
       const updatedWorkouts = [...currentWorkouts, workout];
-      console.log('UPDATED WORKOUT');
-      console.log(updatedWorkouts);
       await AsyncStorage.setItem('workouts', JSON.stringify(updatedWorkouts));
     } catch (error) {
       // Error saving data
     }
   };
-  console.log(workout.id);
 
   return (
-    <View>
+    <SafeAreaView>
+      <Input
+        value={workout.title}
+        onChangeText={(text) => handleTitleChange(text)}
+        placeholder="Title"
+      />
       <Button text="SAVE" onPress={storeWorkout} />
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default Summary;
+const mapDispatchToProps = (dispatch) => ({
+  handleTitleChange: (text) => dispatch(handleTitleChange(text)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Summary);

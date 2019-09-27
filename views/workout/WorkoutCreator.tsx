@@ -42,20 +42,11 @@ class WorkoutCreator extends Component<Props, State> {
     return exercise.sets.length > 0;
   };
 
-  getWorkouts = async () => {
-    try {
-      const currentWorkouts = await AsyncStorage.getItem('workouts');
-      console.log(JSON.parse(currentWorkouts));
-    } catch (error) {
-      // Error saving data
-    }
-  };
-
   render() {
     let currentPage;
     const { step } = this.state;
     const { workout } = this.props;
-    this.getWorkouts();
+    
     switch (step) {
       case 1:
         currentPage = (

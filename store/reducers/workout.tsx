@@ -62,6 +62,11 @@ const workout = (state = initalState, action) => {
           return { ...exercise, sets: [...exercise.sets.slice(0, -1)] };
         }),
       };
+    case 'HANDLE_TITLE_CHANGE':
+      return {
+        ...state,
+        title: action.text,
+      };
     default:
       return state;
   }

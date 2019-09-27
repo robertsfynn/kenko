@@ -34,3 +34,8 @@ export const removeSet = (exerciseID: number) => ({
 export const createWorkout = () => ({
   type: 'CREATE_WORKOUT',
 });
+
+export const handleTitleChange = (text) => ({
+  type: 'HANDLE_TITLE_CHANGE',
+  text,
+});
