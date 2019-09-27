@@ -41,11 +41,17 @@ export const Tags = ({ tags }: Props) => {
   );
 };
 
+const PurpleTagsContainer = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: flex-start;
+`;
+
 export const PurpleTagContainer = styled.View`
   background: #7081ff;
   border-radius: 2px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+  margin-right: 8px;
+  margin-bottom: 8px;
 `;
 
 const PurpleTagText = styled.Text`
@@ -53,18 +59,18 @@ const PurpleTagText = styled.Text`
   font-size: 15px;
   line-height: 18px;
   text-align: center;
-
+  padding: 10px 20px;
   color: #ffffff;
 `;
 
 export const PurpleTags = ({ tags }: Props) => {
   return (
-    <TagsContainer>
+    <PurpleTagsContainer>
       {tags.map((tag) => (
         <PurpleTagContainer key={tag}>
           <PurpleTagText>{tag}</PurpleTagText>
         </PurpleTagContainer>
       ))}
-    </TagsContainer>
+    </PurpleTagsContainer>
   );
 };

@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import {
+  View,
+  AsyncStorage,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { connect } from 'react-redux';
-import ExerciseList from '../../containers/ExerciseList';
 import Header from '../../components/Header';
-import SetList from '../../containers/SetList';
 import Summary from '../../components/Summary';
 import { createWorkout } from '../../store/actions/workout';
 import ExerciseItem from '../../containers/ExerciseItem';
 import exercises from '../../assets/data/exercises';
 import SetItem from '../../containers/SetItem';
 import styled from 'styled-components/native';
+import workout from '../../store/reducers/workout';
 
 interface Exercise {
   title: string;
@@ -48,10 +52,24 @@ class WorkoutCreator extends Component<Props, State> {
   }
 
   storeWorkout = async () => {
+    const { workout } = this.props;
+
     const currentWorkouts =
       JSON.parse(await AsyncStorage.getItem('workouts')) || [];
-    const updatedWorkouts = [...currentWorkouts, this.props.workout];
-    await AsyncStorage.setItem('workouts', JSON.stringify(updatedWorkouts));
+    const existingWorkoutIndex = currentWorkouts.findIndex(
+      (currentWorkout) => currentWorkout.id === this.props.workout.id,
+    );
+
+    existingWorkoutIndex === -1
+      ? currentWorkouts.push(workout)
+      : (currentWorkouts[existingWorkoutIndex] = workout);
+
+    await AsyncStorage.setItem('workouts', JSON.stringify(currentWorkouts));
+  };
+
+  getWorkouts = async () => {
+    const currentWorkouts =
+      JSON.parse(await AsyncStorage.getItem('workouts')) || [];
   };
 
   nextStep = () => {
@@ -72,6 +90,7 @@ class WorkoutCreator extends Component<Props, State> {
 
   render() {
     let currentPage;
+    this.getWorkouts();
     const { step } = this.state;
     const { workout } = this.props;
 
@@ -84,6 +103,7 @@ class WorkoutCreator extends Component<Props, State> {
               subtitle="Workout creation"
               handleNext={this.nextStep}
               nextActive={workout.chosenExercises.length > 0}
+              nextText="Next"
             />
             <Container>
               {exercises.map((exercise) => (
@@ -106,18 +126,27 @@ class WorkoutCreator extends Component<Props, State> {
               handleNext={this.nextStep}
               handleBack={this.prevStep}
               nextActive={workout.chosenExercises.every(this.hasAtLeatOneSet)}
+              nextText="Next"
             />
-            <Container>
-              {workout.chosenExercises.map((exercise) => (
-                <SetItem
-                  title={exercise.title}
-                  key={exercise.id}
-                  exerciseID={exercise.id}
-                  image={exercise.image}
-                  sets={exercise.sets}
-                />
-              ))}
-            </Container>
+            <KeyboardAvoidingView
+              style={{ flex: 1 }}
+              behavior="padding"
+              enabled
+            >
+              <ScrollView>
+                <Container>
+                  {workout.chosenExercises.map((exercise) => (
+                    <SetItem
+                      title={exercise.title}
+                      key={exercise.id}
+                      exerciseID={exercise.id}
+                      image={exercise.image}
+                      sets={exercise.sets}
+                    />
+                  ))}
+                </Container>
+              </ScrollView>
+            </KeyboardAvoidingView>
           </>
         );
         break;
@@ -129,8 +158,18 @@ class WorkoutCreator extends Component<Props, State> {
               handleNext={this.storeWorkout}
               handleBack={this.prevStep}
               nextActive={!!workout.title}
+              workout={workout}
+              nextText="Finish"
             />
-            <Summary workout={workout} />
+            <KeyboardAvoidingView
+              style={{ flex: 1 }}
+              behavior="padding"
+              enabled
+            >
+              <ScrollView>
+                <Summary workout={workout} />
+              </ScrollView>
+            </KeyboardAvoidingView>
           </>
         );
         break;
@@ -138,7 +177,7 @@ class WorkoutCreator extends Component<Props, State> {
         currentPage = null;
     }
 
-    return <View>{currentPage}</View>;
+    return <View style={{ flex: 1 }}>{currentPage}</View>;
   }
 }
 

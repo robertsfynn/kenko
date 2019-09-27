@@ -1,8 +1,10 @@
 import React from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, TouchableOpacity, View, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-
+import { handleTitleChange } from '../store/actions/workout';
+import back from '../assets/back-icon.png';
 const Container = styled.View`
   justify-content: center;
   padding: 0 20px;
@@ -34,11 +36,27 @@ const NextButton = styled.Text`
 `;
 
 const BackButton = styled.Text`
+  background: ;
+`;
+
+const InputLabel = styled.Text`
+  font-family: Questrial;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 12px;
+  color: rgba(254, 254, 254, 0.6);
+  margin-bottom: 6px;
+`;
+
+const Input = styled.TextInput`
   font-family: Rubik;
   font-size: 15px;
   line-height: 18px;
-  color: #5063ee;
-  margin-bottom: 15px;
+  color: #ffffff;
+  padding-bottom: 15px;
+  border-bottom-color: #5063ee;
+  border-bottom-width: 1px;
 `;
 
 interface Props {
@@ -47,6 +65,7 @@ interface Props {
   handleNext: () => void;
   handleBack: () => void;
   nextActive: boolean;
+  workout?: object;
 }
 
 const Header = ({
@@ -55,8 +74,16 @@ const Header = ({
   handleNext,
   handleBack,
   nextActive,
+  nextText,
+  workout,
+  handleTitleChange,
 }: Props) => (
-  <View style={{ backgroundColor: '#2f325a', height: 180 }}>
+  <LinearGradient
+    colors={['#23253A', '#5063EE']}
+    start={[0, 0]}
+    end={[0, 2.5]}
+    style={{ paddingBottom: 30 }}
+  >
     <SafeAreaView>
       <Container>
         <View
@@ -66,28 +93,37 @@ const Header = ({
           }}
         >
           {handleBack ? (
-            <BackButton onPress={handleBack}>Back</BackButton>
+            <TouchableOpacity onPress={handleBack}>
+              <Image source={back} style={{ width: 22, height: 22 }} />
+            </TouchableOpacity>
           ) : null}
           {handleNext ? (
             <NextButton onPress={handleNext}>
-              {nextActive ? 'Next' : ' '}
+              {nextActive ? nextText : ' '}
             </NextButton>
           ) : null}
         </View>
         <Title>{title}</Title>
         <Subtitle>{subtitle}</Subtitle>
+        {workout ? (
+          <>
+            <InputLabel>Workout name</InputLabel>
+            <Input
+              value={workout.title}
+              onChangeText={(text) => handleTitleChange(text)}
+            />
+          </>
+        ) : null}
       </Container>
     </SafeAreaView>
-  </View>
+  </LinearGradient>
 );
 
-{
-  /* <LinearGradient
-    colors={['#23253A', '#5063EE']}
-    start={[0, 0]}
-    end={[0, 2.5]}
-    style={{ height: 180 }}
-  ></LinearGradient> */
-}
+const mapDispatchToProps = (dispatch) => ({
+  handleTitleChange: (text) => dispatch(handleTitleChange(text)),
+});
 
-export default Header;
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Header);

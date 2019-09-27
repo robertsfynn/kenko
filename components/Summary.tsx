@@ -1,54 +1,51 @@
 import React from 'react';
-import { View, Text, AsyncStorage } from 'react-native';
 import styled from 'styled-components/native';
 import { PurpleTags } from 'components/Tags';
-import { connect } from 'react-redux';
-import Button from './Button';
 import { handleTitleChange } from '../store/actions/workout';
+import SetItem from '../containers/SetItem';
 
-const InputContainer = styled.View`
-  background-color: #2f325a;
-  padding: 0 20px 30px 20px;
-  margin-top: -20px;
+const Container = styled.View`
+  padding: 0 20px;
 `;
 
-const InputLabel = styled.Text`
-  font-family: Questrial;
+const SectionHeader = styled.Text`
+  font-family: Rubik;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
-  line-height: 12px;
-  color: rgba(254, 254, 254, 0.6);
-  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 1px;
+  color: #26262b;
+  opacity: 0.7;
+  margin-top: 24px;
+  margin-bottom: 16px;
 `;
 
-const Input = styled.TextInput`
-  font-family: Rubik;
-  font-size: 15px;
-  line-height: 18px;
-  color: #ffffff;
-  padding-bottom: 15px;
-  border-bottom-color: #5063ee;
-  border-bottom-width: 1px;
-`;
+const Summary = ({ workout }) => {
+  const getTags = (exercises) => {
+    const tags = [];
+    exercises.map((exercise) => {
+      tags.push(...exercise.tags);
+    });
+    return tags;
+  };
 
-const Summary = ({ workout, handleTitleChange }) => {
   return (
-    <InputContainer>
-      <InputLabel>Workout name</InputLabel>
-      <Input
-        value={workout.title}
-        onChangeText={(text) => handleTitleChange(text)}
-      />
-    </InputContainer>
+    <Container>
+      <SectionHeader>Muscles Involved</SectionHeader>
+      <PurpleTags tags={getTags(workout.chosenExercises)} />
+      <SectionHeader>Exercises</SectionHeader>
+      {workout.chosenExercises.map((exercise) => (
+        <SetItem
+          title={exercise.title}
+          key={exercise.id}
+          exerciseID={exercise.id}
+          image={exercise.image}
+          sets={exercise.sets}
+        />
+      ))}
+    </Container>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  handleTitleChange: (text) => dispatch(handleTitleChange(text)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Summary);
+export default Summary;
