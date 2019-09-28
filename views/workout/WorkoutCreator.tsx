@@ -6,13 +6,13 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
+import styled from 'styled-components/native';
 import Header from '../../components/Header';
 import Summary from '../../components/Summary';
 import { createWorkout } from '../../store/actions/workout';
 import ExerciseItem from '../../containers/ExerciseItem';
 import exercises from '../../assets/data/exercises';
 import SetItem from '../../containers/SetItem';
-import styled from 'styled-components/native';
 
 interface Exercise {
   title: string;
@@ -93,7 +93,7 @@ class WorkoutCreator extends Component<Props, State> {
   render() {
     let currentPage;
     const { step } = this.state;
-    const { workout } = this.props;
+    const { workout, navigation } = this.props;
 
     switch (step) {
       case 1:
@@ -103,6 +103,7 @@ class WorkoutCreator extends Component<Props, State> {
               title="Add Exercises"
               subtitle="Workout creation"
               handleNext={this.nextStep}
+              handleBack={() => navigation.navigate('Home')}
               nextActive={workout.chosenExercises.length > 0}
               nextText="Next"
             />

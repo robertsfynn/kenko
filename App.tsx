@@ -2,17 +2,35 @@ import React, { Component } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import WorkoutCreator from './views/workout/WorkoutCreator';
-
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import Home from './views/home/Home';
 // Redux
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './store/reducers';
+import { SafeAreaView } from 'react-native';
 
 const store = createStore(rootReducer);
 
 interface State {
   isReady: boolean;
 }
+
+const AppNavigator = createStackNavigator(
+  {
+    Home,
+    WorkoutCreator,
+  },
+  {
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      header: null,
+    },
+  },
+);
+
+const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends Component<{}, State> {
   state = {
@@ -43,7 +61,7 @@ export default class App extends Component<{}, State> {
 
     return (
       <Provider store={store}>
-        <WorkoutCreator />
+        <AppContainer />
       </Provider>
     );
   }
