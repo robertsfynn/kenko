@@ -57,16 +57,12 @@ interface Props {
   removeExercise: (Exercise) => object;
 }
 
-interface State {
-  isPressed: boolean;
-}
-
 const ExerciseItem = ({
   chosenExercises,
   exercise,
   addExercise,
   removeExercise,
-}) => {
+}: Props) => {
   const handlePress = (exercise: Exercise, isPressed: boolean) => {
     !isPressed ? addExercise(exercise) : removeExercise(exercise);
   };
@@ -82,7 +78,10 @@ const ExerciseItem = ({
         <ExerciseTitle>{exercise.title}</ExerciseTitle>
         <Tags tags={exercise.tags} />
       </ExerciseContainer>
-      <TouchableOpacity onPress={() => handlePress(exercise, isPressed)}>
+      <TouchableOpacity
+        onPress={() => handlePress(exercise, isPressed)}
+        style={{ padding: 20 }}
+      >
         <Checkbox isPressed={isPressed} />
       </TouchableOpacity>
     </ItemContainer>

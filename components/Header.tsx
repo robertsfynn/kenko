@@ -33,10 +33,7 @@ const NextButton = styled.Text`
   margin-bottom: 15px;
   text-align: right;
   margin-left: auto;
-`;
-
-const BackButton = styled.Text`
-  background: ;
+  padding: 10px;
 `;
 
 const InputLabel = styled.Text`

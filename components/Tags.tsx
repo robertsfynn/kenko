@@ -26,7 +26,7 @@ const TagsContainer = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   align-self: flex-start;
-  width: 75%;
+  width: 90%;
 `;
 
 export const Tags = ({ tags }: Props) => {
