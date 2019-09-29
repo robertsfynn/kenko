@@ -72,6 +72,7 @@ class WorkoutCreator extends Component<Props, State> {
     }
 
     await AsyncStorage.setItem('workouts', JSON.stringify(updatedData));
+    this.props.navigation.navigate('Home');
   };
 
   nextStep = () => {

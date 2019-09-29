@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 const InfoContainer = styled.View`
   flex: 1;
-  padding: 15px;
+  padding: 20px;
   border: 1px solid #dfdfe6;
   border-left-width: 0;
   border-right-width: ${({ noRightBorder }) => (noRightBorder ? 0 : '1px')};
@@ -26,6 +26,7 @@ const InfoSubtitle = styled.Text`
   font-size: 13px;
   line-height: 16px;
   color: rgba(38, 38, 43, 0.7);
+  margin-right: 30%;
 `;
 
 const Info = ({ number, subtitle, unit }) => {

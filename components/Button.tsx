@@ -20,10 +20,10 @@ const StyledButtonText = styled.Text`
 
 const Button = ({ text, onPress }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={{ alignSelf: 'center' }}>
       <LinearGradient
         colors={['#23253A', '#5063EE']}
-        style={{ paddingHorizontal: 50, paddingVertical: 25 }}
+        style={{ paddingHorizontal: 25, paddingVertical: 16 }}
         start={{ x: 1, y: 1 }}
         end={{ x: 0, y: 0 }}
         locations={[0.0, 0.79]}
