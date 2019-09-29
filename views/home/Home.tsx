@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { LinearGradient } from 'expo-linear-gradient';
+import { NavigationEvents } from 'react-navigation';
 import styled from 'styled-components/native';
 import Button from '../../components/Button';
 import Info from '../../components/Info';
@@ -37,6 +38,7 @@ const NoWorkoutsText = styled.Text`
   line-height: 17px;
   text-align: center;
   padding: 0 30px;
+  margin-bottom: 30px;
 
   color: rgba(38, 38, 43, 0.7);
 `;
@@ -47,7 +49,6 @@ const slideWidth = 220;
 const sliderWidth = Dimensions.get('window').width;
 const itemWidth = slideWidth + horizontalMargin * 2;
 const itemHeight = 100;
-console.log(sliderWidth);
 
 const styles = StyleSheet.create({
   slide: {
@@ -67,13 +68,21 @@ export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isReady: false,
       workouts: null,
     };
     this.carousel = {};
   }
 
   componentDidMount() {
-    this.getWorkouts();
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.getWorkouts();
+      this.setState({ isReady: true });
+    });
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
   }
 
   getWorkouts = async () => {
@@ -81,7 +90,12 @@ export class Home extends Component {
     this.setState({ workouts });
   };
 
-  renderItem({ item }) {
+  handleNext = () => {
+    this.setState({ isReady: false });
+    this.props.navigation.navigate('WorkoutCreator');
+  };
+
+  renderItem = ({ item }) => {
     return (
       <LinearGradient
         colors={['#23253A', '#5063EE']}
@@ -95,56 +109,56 @@ export class Home extends Component {
         </View>
       </LinearGradient>
     );
-  }
+  };
 
   render() {
-    console.log(this.state);
     return (
       <SafeAreaView>
         <Container>
           <Title>Dashboard</Title>
         </Container>
-        <InfosContainer>
-          <Info number={0} subtitle="workouts completed" />
-          <Info number={0} subtitle="tonnage lifted" unit="kg" />
-          <Info number={70} subtitle="current weight" unit="kg" />
-        </InfosContainer>
-        <View style={{ marginVertical: 20 }}>
-          {this.state.workouts ? (
-            <Carousel
-              layout="stack"
-              layoutCardOffset={9}
-              ref={(c) => {
-                this.carousel = c;
-              }}
-              data={this.state.workouts}
-              renderItem={this.renderItem}
-              sliderWidth={sliderWidth}
-              itemWidth={itemWidth}
-            />
-          ) : (
-            <Container>
-              <Image
-                source={noWorkoutsImage}
-                style={{
-                  height: undefined,
-                  width: '90%',
-                  alignSelf: 'center',
-                  aspectRatio: 332 / 280,
-                  marginBottom: 50,
-                  marginTop: 30,
-                }}
-              />
-              <NoWorkoutsText>
-                You have no workouts yet. Go on and create your first one!
-              </NoWorkoutsText>
-            </Container>
-          )}
-        </View>
-        <Button
-          text="Create Workout"
-          onPress={() => this.props.navigation.navigate('WorkoutCreator')}
-        />
+        {this.state.isReady ? (
+          <>
+            <InfosContainer>
+              <Info number={0} subtitle="workouts completed" />
+              <Info number={0} subtitle="tonnage lifted" unit="kg" />
+              <Info number={70} subtitle="current weight" unit="kg" />
+            </InfosContainer>
+            <View style={{ marginVertical: 20 }}>
+              {this.state.workouts ? (
+                <Carousel
+                  layout="stack"
+                  layoutCardOffset={9}
+                  ref={(c) => {
+                    this.carousel = c;
+                  }}
+                  data={this.state.workouts}
+                  renderItem={this.renderItem}
+                  sliderWidth={sliderWidth}
+                  itemWidth={itemWidth}
+                />
+              ) : (
+                <Container>
+                  <Image
+                    source={noWorkoutsImage}
+                    style={{
+                      height: undefined,
+                      width: '90%',
+                      alignSelf: 'center',
+                      aspectRatio: 332 / 280,
+                      marginBottom: 50,
+                      marginTop: 30,
+                    }}
+                  />
+                  <NoWorkoutsText>
+                    You have no workouts yet. Go on and create your first one!
+                  </NoWorkoutsText>
+                  <Button text="Create Workout" onPress={this.handleNext} />
+                </Container>
+              )}
+            </View>
+          </>
+        ) : null}
       </SafeAreaView>
     );
   }
