@@ -16,6 +16,7 @@ import Button from '../../components/Button';
 import Info from '../../components/Info';
 import noWorkoutsImage from '../../assets/no-workouts.png';
 import Container from '../../styled/Container';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Title = styled.Text`
   font-family: Rubik-Medium;
@@ -105,19 +106,26 @@ export class Home extends Component {
     this.props.navigation.navigate('WorkoutCreator');
   };
 
+  startWorkout = (workout) => {
+    console.log('PRESS');
+    this.props.navigation.navigate('WorkoutStarter', { workout });
+  };
+
   renderItem = ({ item }) => {
     return (
-      <LinearGradient
-        colors={['#23253A', '#5063EE']}
-        style={styles.slide}
-        start={{ x: 1, y: 1 }}
-        end={{ x: 0, y: 0 }}
-        locations={[0.0, 0.79]}
-      >
-        <View style={styles.slideInnerContainer}>
-          <WorkoutTitle>{item.title}</WorkoutTitle>
-        </View>
-      </LinearGradient>
+      <TouchableOpacity onPress={() => this.startWorkout(item)}>
+        <LinearGradient
+          colors={['#23253A', '#5063EE']}
+          style={styles.slide}
+          start={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          locations={[0.0, 0.79]}
+        >
+          <View style={styles.slideInnerContainer}>
+            <WorkoutTitle>{item.title}</WorkoutTitle>
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
     );
   };
 

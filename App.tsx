@@ -5,6 +5,7 @@ import WorkoutCreator from './views/workout/WorkoutCreator';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from './views/home/Home';
+import WorkoutStarter from './views/workout/WorkoutStarter';
 // Redux
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -21,6 +22,7 @@ const AppNavigator = createStackNavigator(
   {
     Home,
     WorkoutCreator,
+    WorkoutStarter,
   },
   {
     initialRouteName: 'Home',
