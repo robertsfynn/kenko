@@ -144,17 +144,20 @@ export class Home extends Component {
             </InfosContainer>
             <View style={{ marginVertical: 20 }}>
               {this.state.workouts ? (
-                <Carousel
-                  layout="stack"
-                  layoutCardOffset={9}
-                  ref={(c) => {
-                    this.carousel = c;
-                  }}
-                  data={this.state.workouts}
-                  renderItem={this.renderItem}
-                  sliderWidth={sliderWidth}
-                  itemWidth={itemWidth}
-                />
+                <>
+                  <Carousel
+                    layout="stack"
+                    layoutCardOffset={9}
+                    ref={(c) => {
+                      this.carousel = c;
+                    }}
+                    data={this.state.workouts}
+                    renderItem={this.renderItem}
+                    sliderWidth={sliderWidth}
+                    itemWidth={itemWidth}
+                  />
+                  <Button text="Create Workout" onPress={this.handleNext} />
+                </>
               ) : (
                 <Container>
                   <Image
