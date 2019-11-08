@@ -30,6 +30,16 @@ const InfosContainer = styled.View`
   flex-direction: row;
 `;
 
+const WorkoutTitle = styled.Text`
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 28px;
+
+  color: #ffffff;
+`;
+
 const NoWorkoutsText = styled.Text`
   font-family: Rubik;
   font-style: normal;
@@ -105,7 +115,7 @@ export class Home extends Component {
         locations={[0.0, 0.79]}
       >
         <View style={styles.slideInnerContainer}>
-          <Text>{item.title}</Text>
+          <WorkoutTitle>{item.title}</WorkoutTitle>
         </View>
       </LinearGradient>
     );
