@@ -26,8 +26,10 @@ const Summary = ({ workout }) => {
     exercises.map((exercise) => {
       tags.push(...exercise.tags);
     });
-    return tags;
+    return [...new Set(tags)];
   };
+
+  console.log(workout.chosenExercises);
 
   return (
     <Container>
