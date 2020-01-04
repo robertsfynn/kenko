@@ -3,6 +3,7 @@ import { Text, View, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import Header from '../../components/Header';
 import SetItemText from '../../components/SetItemText';
+import SetItemContainer from '../../containers/SetItemContainer';
 
 const Container = styled.View`
   padding: 0 20px;
@@ -29,7 +30,7 @@ class WorkoutStarter extends Component {
           <ScrollView scrollIndicatorInsets={{ right: 1 }}>
             <Container>
               {workout.chosenExercises.map((exercise) => (
-                <SetItemText
+                <SetItemContainer
                   title={exercise.title}
                   key={exercise.id}
                   exerciseID={exercise.id}

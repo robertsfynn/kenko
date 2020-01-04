@@ -12,7 +12,7 @@ import Summary from '../../components/Summary';
 import { createWorkout } from '../../store/actions/workout';
 import ExerciseItem from '../../containers/ExerciseItem';
 import exercises from '../../assets/data/exercises';
-import SetItem from '../../containers/SetItem';
+import SetItem from '../../containers/SetItemContainer';
 
 interface Exercise {
   title: string;
@@ -145,6 +145,7 @@ class WorkoutCreator extends Component<Props, State> {
                       exerciseID={exercise.id}
                       image={exercise.image}
                       sets={exercise.sets}
+                      setType="Input"
                     />
                   ))}
                 </Container>
@@ -193,7 +194,4 @@ const mapStateToProps = (state) => {
   return { workout };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(WorkoutCreator);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutCreator);

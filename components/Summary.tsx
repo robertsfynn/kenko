@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import SetItem from '../containers/SetItem';
+import SetItem from '../containers/SetItemContainer';
 import { PurpleTags } from './Tags';
 
 const Container = styled.View`
@@ -43,6 +43,7 @@ const Summary = ({ workout }) => {
           exerciseID={exercise.id}
           image={exercise.image}
           sets={exercise.sets}
+          setType="Input"
         />
       ))}
     </Container>
