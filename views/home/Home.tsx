@@ -156,7 +156,12 @@ export class Home extends Component {
                     sliderWidth={sliderWidth}
                     itemWidth={itemWidth}
                   />
-                  <Button text="Create Workout" onPress={this.handleNext} />
+                  <View style={{ marginTop: 30 }}>
+                    <Button
+                      text="Create Workout"
+                      onPress={this.handleNext}
+                    />
+                  </View>
                 </>
               ) : (
                 <Container>
@@ -174,7 +179,11 @@ export class Home extends Component {
                   <NoWorkoutsText>
                     You have no workouts yet. Go on and create your first one!
                   </NoWorkoutsText>
-                  <Button text="Create Workout" onPress={this.handleNext} />
+                  <Button
+                    text="Create Workout"
+                    marginTop="0px"
+                    onPress={this.handleNext}
+                  />
                 </Container>
               )}
             </View>
